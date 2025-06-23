@@ -81,21 +81,17 @@ void generate()
    // Mixes are customized differently per biome.
    int baseMixID = rmCustomMixCreate();
 
-   int biome = xsRandInt(0, 1);
-
    // 0 is Greek, 1 is Egyptian. Can expand this way if desired.
-   if (biome == 0)
-   {
-      seaType = cWaterGreekSeaAegean;
-      forestType = cForestGreekMediterraneanDirt;
-      treeType = cUnitTypeTreeOak;
+      seaType = cWaterHadesRiver;
+      forestType = cForestHades;
+      treeType = cUnitTypeTreeHades;
       natureCiv = cCultureGreek;
-      cliffType = cCliffGreekGrass;
-      berryTerrain1 = cTerrainGreekGrass2;
-      berryTerrain2 = cTerrainGreekGrassDirt1;
+      cliffType = cCliffHadesDirt;
+      berryTerrain1 = cTerrainHadesDirt1;
+      berryTerrain2 = cTerrainHadesDirt2;
 
       smallHuntType1 = cUnitTypeDeer;
-      smallHuntType2 = cUnitTypeGazelle;
+      smallHuntType2 = cUnitTypeChickenEvil;
       bigHuntType1 = cUnitTypeAurochs;
       bigHuntType2 = cUnitTypeBoar;
 
@@ -110,42 +106,10 @@ void generate()
    
       // Define mixes.
       rmCustomMixSetPaintParams(baseMixID, cNoiseFractalSum, 0.3, 2);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainGreekGrass2, 3.0);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainGreekGrass1, 4.0);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainGreekGrassDirt1, 4.0);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainGreekGrassDirt2, 3.0);
-   }
-   else if (biome == 1)
-   {
-      seaType = cWaterEgyptSea;
-      forestType = cForestEgyptPalm;
-      treeType = cUnitTypeTreePalm;
-      natureCiv = cCultureEgyptian;
-      cliffType = cCliffEgyptSand;
-      berryTerrain1 = cTerrainEgyptGrassDirt1;
-      berryTerrain2 = cTerrainEgyptGrassDirt2;
-
-      smallHuntType1 = cUnitTypeZebra;
-      smallHuntType2 = cUnitTypeGiraffe;
-      bigHuntType1 = cUnitTypeWaterBuffalo;
-      bigHuntType2 = cUnitTypeHippopotamus;
-
-      if (xsRandBool(0.75) == true)
-      {
-         herdType = cUnitTypeGoat;
-      }
-      else
-      {
-         herdType = cUnitTypePig;
-      }
-
-      // Define mixes.
-      rmCustomMixSetPaintParams(baseMixID, cNoiseRandom);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptDirtRocks1, 1.0);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptSand1, 3.0);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptSand2, 3.0);
-      rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptSand3, 3.0);
-   }
+      rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirt1, 3.0);
+      rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirt2, 4.0);
+      rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirtRocks1, 4.0);
+      rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirtRocks2, 3.0);
 
    // Map size and terrain init.
    int axisTiles = getScaledAxisTiles(152);
@@ -159,7 +123,7 @@ void generate()
    postPlayerPlacement();
 
    // Mother Nature's civ.
-   rmSetNatureCivFromCulture(cCultureEgyptian);
+   rmSetNatureCiv(cCivHades);
 
    // Lighting.
    rmSetLighting(cLightingSetRmNomad01);
@@ -587,22 +551,43 @@ void generate()
 
    generateLocs("starting units");
 
-   // Global fish.
+   // Global 
+//   float avoidFishMeters = 20.0;
+//
+//   int globalFishID = rmObjectDefCreate("global fish");
+//   rmObjectDefAddItem(globalFishID, cUnitTypeStalagmite, 3, 5.0);
+//   rmObjectDefAddConstraint(globalFishID, vDefaultAvoidEdge);
+//   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityLand, true, 6.0), cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityMaxDistanceConstraint(cPassabilityLand, true, 18.0), cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(globalFishID, rmCreateTypeDistanceConstraint(cUnitTypeFishResource, avoidFishMeters));
+//   addObjectLocsAtOrigin(globalFishID, xsRandInt(10, 15) * sqrt(cNumberPlayers) * getMapAreaSizeFactor(), cCenterLoc,
+//                         0.0, continentRadiusMeters, avoidFishMeters);
+//
+//   int outerGlobalFishID = rmObjectDefCreate("outer global fish");
+//   rmObjectDefAddItem(outerGlobalFishID, cUnitTypeStalagmite, 3, 5.0);
+//   rmObjectDefAddConstraint(outerGlobalFishID, vDefaultAvoidEdge);
+//   rmObjectDefAddConstraint(outerGlobalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityLand, true, 17.5), cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(outerGlobalFishID, rmCreateTypeDistanceConstraint(cUnitTypeFishResource, avoidFishMeters));
+//   addObjectLocsAtOrigin(outerGlobalFishID, xsRandInt(6, 12) * sqrt(cNumberPlayers) * getMapAreaSizeFactor(), cCenterLoc,
+//                         0.0, -1.0, avoidFishMeters);
+//
+//   generateLocs("global fish locs");
+   // Global 
    float avoidFishMeters = 20.0;
 
    int globalFishID = rmObjectDefCreate("global fish");
-   rmObjectDefAddItem(globalFishID, cUnitTypeMahi, 3, 5.0);
+   rmObjectDefAddItem(globalFishID, cUnitTypeStalagmite, 3, 5.0);
    rmObjectDefAddConstraint(globalFishID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityLand, true, 6.0), cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityMaxDistanceConstraint(cPassabilityLand, true, 18.0), cObjectConstraintBufferNone);
+   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityNone, true, 6.0), cObjectConstraintBufferNone);
+   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityMaxDistanceConstraint(cPassabilityNone, true, 18.0), cObjectConstraintBufferNone);
    rmObjectDefAddConstraint(globalFishID, rmCreateTypeDistanceConstraint(cUnitTypeFishResource, avoidFishMeters));
    addObjectLocsAtOrigin(globalFishID, xsRandInt(10, 15) * sqrt(cNumberPlayers) * getMapAreaSizeFactor(), cCenterLoc,
                          0.0, continentRadiusMeters, avoidFishMeters);
 
    int outerGlobalFishID = rmObjectDefCreate("outer global fish");
-   rmObjectDefAddItem(outerGlobalFishID, cUnitTypeMahi, 3, 5.0);
+   rmObjectDefAddItem(outerGlobalFishID, cUnitTypeStalagmite, 3, 5.0);
    rmObjectDefAddConstraint(outerGlobalFishID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(outerGlobalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityLand, true, 17.5), cObjectConstraintBufferNone);
+   rmObjectDefAddConstraint(outerGlobalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityNone, true, 17.5), cObjectConstraintBufferNone);
    rmObjectDefAddConstraint(outerGlobalFishID, rmCreateTypeDistanceConstraint(cUnitTypeFishResource, avoidFishMeters));
    addObjectLocsAtOrigin(outerGlobalFishID, xsRandInt(6, 12) * sqrt(cNumberPlayers) * getMapAreaSizeFactor(), cCenterLoc,
                          0.0, -1.0, avoidFishMeters);
@@ -625,31 +610,21 @@ void generate()
    // Embellishment lib
    int rockTiny = 0;
    int rockSmall = 0;
+   int stalagmite = 0;   
    int plantGrass = 0;
    int plantBush = 0;
    int plantWeeds = 0;
    int plantShrub = 0;
 
-   if (biome == 0)
-   {
-      // Greek.
-      rockTiny = cUnitTypeRockGreekTiny;
-      rockSmall = cUnitTypeRockGreekSmall;
-      plantGrass = cUnitTypePlantGreekGrass;
-      plantBush = cUnitTypePlantGreekBush;
-      plantWeeds = cUnitTypePlantGreekWeeds;
-      plantShrub = cUnitTypePlantGreekShrub;
-   }
-   else
-   {
-      // Egypt.
-      rockTiny = cUnitTypeRockEgyptTiny;
-      rockSmall = cUnitTypeRockEgyptSmall;
-      plantGrass = cUnitTypePlantDeadGrass;
-      plantBush = cUnitTypePlantDeadBush;
-      plantWeeds = cUnitTypePlantDeadWeeds;
-      plantShrub = cUnitTypePlantDeadShrub;
-   }
+      // Greek Hades.
+      rockTiny = cUnitTypeRockHadesTiny;
+      rockSmall = cUnitTypeRockHadesSmall;
+      stalagmite = cUnitTypeStalagmite;
+      plantGrass = cUnitTypePlantHadesGrass;
+      plantBush = cUnitTypePlantHadesBush;
+      plantWeeds = cUnitTypePlantHadesWeeds;
+      plantShrub = cUnitTypePlantHadesShrub;
+
    // Random trees.
    int randomTreeID = rmObjectDefCreate("random tree");
    rmObjectDefAddItem(randomTreeID, treeType, 1);
@@ -672,6 +647,12 @@ void generate()
    rmObjectDefAddConstraint(rockSmallID, vDefaultEmbellishmentAvoidAll);
    rmObjectDefAddConstraint(rockSmallID, vDefaultAvoidImpassableLand8);
    rmObjectDefPlaceAnywhere(rockSmallID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int stalagmiteID = rmObjectDefCreate("stalagmite");
+   rmObjectDefAddItem(stalagmiteID, stalagmite, 1);
+   rmObjectDefAddConstraint(stalagmiteID, vDefaultEmbellishmentAvoidAll);
+   rmObjectDefAddConstraint(stalagmiteID, vDefaultAvoidImpassableLand8);
+   rmObjectDefPlaceAnywhere(stalagmiteID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Grass.
    int grassID = rmObjectDefCreate("grass");
@@ -703,7 +684,7 @@ void generate()
 
    // Birbs.
    int birdID = rmObjectDefCreate("bird");
-   rmObjectDefAddItem(birdID, cUnitTypeHawk, 1);
+   rmObjectDefAddItem(birdID, cUnitTypeHarpy, 1);
    rmObjectDefPlaceAnywhere(birdID, 0, 2 * cNumberPlayers * getMapAreaSizeFactor());
 
    rmSetProgress(1.0);

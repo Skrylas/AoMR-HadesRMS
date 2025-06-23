@@ -1,0 +1,9 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<mapinfo 
+    displayName = "Nomad (Styx)" 
+    detailsText = "In the Underworld, on the River Styx there are no fish.  Your Villagers start scattered with no Town Center, and must race to claim a Settlement during the time that combat is prevented." 
+    loadDetailsText = "In this version of Nomad, on the river Styx there are no fish to eat.  Your Villagers start scattered with no Town Center, and must race to claim a Settlement during the time that combat is prevented. Will you choose an easily defensible location or one near many resources?"
+    imagepath = "resources\maps\map_picker\nomad.png" 
+    loadBackground="resources\maps\previews\nomad.png"
+    watermap="">
+</mapinfo>
