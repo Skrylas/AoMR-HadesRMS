@@ -1,0 +1,9 @@
+﻿<?xml version = "1.0" encoding = "UTF-8"?>
+<mapinfo 
+    displayName = "Vaults of Erebus"
+    detailsText = "Players begin on easily defensible plateaus with a Vault of Plenty to sustain them."
+    loadDetailsText= "Players begin on easily defensible plateaus containing a Plenty Vault. Construct an impregnable fortress or race your opponents to harvest the more abundant resources in the surrounding valleys."
+    imagepath = "resources\maps\map_picker\vaultsoferebus.png" 
+    loadBackground="resources\maps\previews\vaultsoferebus.png"
+    landmap="">
+</mapinfo>

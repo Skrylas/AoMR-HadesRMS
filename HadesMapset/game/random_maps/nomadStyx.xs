@@ -53,7 +53,7 @@ void generateTriggers()
    rmTriggerAddScriptLine("highFrequency");
    rmTriggerAddScriptLine("active");
    rmTriggerAddScriptLine("{");
-   rmTriggerAddScriptLine("   trSetLighting(\"" + cLightingSetRmNomad02 + "\", 180.0);");
+   rmTriggerAddScriptLine("   trSetLighting(\"" + cLightingSetRandomMapsRiverStyx + "\", 180.0);");
    rmTriggerAddScriptLine("   xsDisableSelf();");
    rmTriggerAddScriptLine("}");
 }
@@ -97,7 +97,7 @@ void generate()
 
       if (xsRandBool(0.5) == true)
       {
-         herdType = cUnitTypeCow;
+         herdType = cUnitTypeGoat;
       }
       else
       {
@@ -126,7 +126,7 @@ void generate()
    rmSetNatureCiv(cCivHades);
 
    // Lighting.
-   rmSetLighting(cLightingSetRmNomad01);
+   rmSetLighting(cLightingSetRandomMapsErebus);
 
    rmSetProgress(0.1);
 
@@ -280,29 +280,7 @@ void generate()
    {
       float huntFloat = xsRandFloat(0.0, 1.0);
       int huntID = rmObjectDefCreate("prey hunt " + i);
-      if(huntFloat < 1.0 / 5.0)
-      {
-         rmObjectDefAddItem(huntID, smallHuntType1, xsRandInt(3, 6));
-         rmObjectDefAddItem(huntID, smallHuntType2, xsRandInt(3, 6));
-      }
-      else if(huntFloat < 2.0 / 5.0)
-      {
-         rmObjectDefAddItem(huntID, smallHuntType1, xsRandInt(1, 4));
-         rmObjectDefAddItem(huntID, smallHuntType2, xsRandInt(2, 4));
-      }
-      else if(huntFloat < 3.0 / 5.0)
-      {
-         rmObjectDefAddItem(huntID, smallHuntType1, xsRandInt(1, 4));
-         rmObjectDefAddItem(huntID, smallHuntType2, xsRandInt(2, 4));
-      }
-      else if(huntFloat < 4.0 / 5.0)
-      {
-         rmObjectDefAddItem(huntID, smallHuntType1, xsRandInt(3, 9));
-      }
-      else
-      {
-         rmObjectDefAddItem(huntID, smallHuntType2, xsRandInt(3, 9));
-      }
+      rmObjectDefAddItem(huntID, smallHuntType1, xsRandInt(3, 9));
       rmObjectDefAddConstraint(huntID, vDefaultFoodAvoidAll);
       rmObjectDefAddConstraint(huntID, vDefaultFoodAvoidImpassableLand);
       rmObjectDefAddConstraint(huntID, vDefaultFoodAvoidWater);
@@ -349,7 +327,7 @@ void generate()
    float avoidBerriesMeters = 50.0;
 
    int berriesID = rmObjectDefCreate("berries");
-   rmObjectDefAddItem(berriesID, cUnitTypeBerryBush, xsRandInt(6, 11), cBerryClusterRadius);
+   rmObjectDefAddItem(berriesID, cUnitTypeChickenEvil, xsRandInt(6, 11), cBerryClusterRadius);
    rmObjectDefAddConstraint(berriesID, vDefaultFoodAvoidAll);
    rmObjectDefAddConstraint(berriesID, vDefaultFoodAvoidImpassableLand);
    rmObjectDefAddConstraint(berriesID, vDefaultFoodAvoidWater);
@@ -572,27 +550,6 @@ void generate()
 //                         0.0, -1.0, avoidFishMeters);
 //
 //   generateLocs("global fish locs");
-   // Global 
-   float avoidFishMeters = 20.0;
-
-   int globalFishID = rmObjectDefCreate("global fish");
-   rmObjectDefAddItem(globalFishID, cUnitTypeStalagmite, 3, 5.0);
-   rmObjectDefAddConstraint(globalFishID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityNone, true, 6.0), cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(globalFishID, rmCreatePassabilityMaxDistanceConstraint(cPassabilityNone, true, 18.0), cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(globalFishID, rmCreateTypeDistanceConstraint(cUnitTypeFishResource, avoidFishMeters));
-   addObjectLocsAtOrigin(globalFishID, xsRandInt(10, 15) * sqrt(cNumberPlayers) * getMapAreaSizeFactor(), cCenterLoc,
-                         0.0, continentRadiusMeters, avoidFishMeters);
-
-   int outerGlobalFishID = rmObjectDefCreate("outer global fish");
-   rmObjectDefAddItem(outerGlobalFishID, cUnitTypeStalagmite, 3, 5.0);
-   rmObjectDefAddConstraint(outerGlobalFishID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(outerGlobalFishID, rmCreatePassabilityDistanceConstraint(cPassabilityNone, true, 17.5), cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(outerGlobalFishID, rmCreateTypeDistanceConstraint(cUnitTypeFishResource, avoidFishMeters));
-   addObjectLocsAtOrigin(outerGlobalFishID, xsRandInt(6, 12) * sqrt(cNumberPlayers) * getMapAreaSizeFactor(), cCenterLoc,
-                         0.0, -1.0, avoidFishMeters);
-
-   generateLocs("global fish locs");
 
    rmSetProgress(0.9);
 
@@ -605,7 +562,7 @@ void generate()
    rmObjectDefPlaceAnywhere(seaweedID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Berries.
-   buildAreaUnderObjectDef(berriesID, berryTerrain1, berryTerrain2, 10.0);
+   //buildAreaUnderObjectDef(berriesID, berryTerrain1, berryTerrain2, 10.0);
 
    // Embellishment lib
    int rockTiny = 0;

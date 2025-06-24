@@ -1,9 +1,0 @@
-﻿<?xml version = "1.0" encoding = "UTF-8"?>
-<mapinfo 
-    displayName = "Mount Erebus"
-    detailsText = "Conquer the pits of Hades, where lost relics are guarded by Shades of the dead."
-    loadDetailsText="Conquer the pits of Hades, where lost souls wander. Scout the surroundings of the pits for sacred relic sites."
-    imagepath = "resources\maps\map_picker\erebuspits.png"
-    loadBackground="resources\maps\previews\erebuspits.png"
-    landmap="">
-</mapinfo>
