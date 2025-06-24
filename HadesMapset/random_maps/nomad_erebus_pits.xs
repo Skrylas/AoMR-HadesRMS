@@ -54,7 +54,7 @@ void generateTriggers()
    rmTriggerAddScriptLine("highFrequency");
    rmTriggerAddScriptLine("active");
    rmTriggerAddScriptLine("{");
-   rmTriggerAddScriptLine("   trSetLighting(\"" + cLightingSetRmNomad02 + "\", 180.0);");
+   rmTriggerAddScriptLine("   trSetLighting(\"" + cLightingSetErebus + "\", 180.0);");
    rmTriggerAddScriptLine("   xsDisableSelf();");
    rmTriggerAddScriptLine("}");
 }
@@ -99,7 +99,7 @@ void generate()
    rmSetNatureCiv(cCivHades);
 
    // Lighting.
-   rmSetLighting(cLightingSetRmErebus01);
+   rmSetLighting(cLightingSetBaseErebus);
 
    // Random Spots to create a more varied looking nomad.
    int randomSpotsClassID = rmClassCreate();
@@ -194,29 +194,6 @@ void generate()
 
    rmSetProgress(0.2);
 
-   // Settlements and towers.
-//   placeStartingTownCenters();
-//
-   // Starting towers.
-//   int startingTowerID = rmObjectDefCreate("starting tower");
-//   rmObjectDefAddItem(startingTowerID, cUnitTypeSentryTower, 1);
-//   addObjectLocsPerPlayer(startingTowerID, true, 4, cStartingTowerMinDist, cStartingTowerMaxDist, cStartingTowerAvoidanceMeters);
-//   generateLocs("starting tower locs");
-
-   // Settlements.
-//   int firstSettlementID = rmObjectDefCreate("first settlement");
-//   rmObjectDefAddItem(firstSettlementID, cUnitTypeSettlement, 1);
-//   rmObjectDefAddConstraint(firstSettlementID, vDefaultSettlementAvoidAllWithFarm);
-//   rmObjectDefAddConstraint(firstSettlementID, vDefaultAvoidTowerLOS);
-//   rmObjectDefAddConstraint(firstSettlementID, vDefaultSettlementAvoidImpassableLand);
-//
-//   int secondSettlementID = rmObjectDefCreate("second settlement");
-//   rmObjectDefAddItem(secondSettlementID, cUnitTypeSettlement, 1);
-//   rmObjectDefAddConstraint(secondSettlementID, vDefaultSettlementAvoidAllWithFarm);
-//   rmObjectDefAddConstraint(secondSettlementID, vDefaultSettlementAvoidEdge);
-//   rmObjectDefAddConstraint(secondSettlementID, vDefaultAvoidTowerLOS);
-//   rmObjectDefAddConstraint(secondSettlementID, vDefaultSettlementAvoidImpassableLand);
-
    // Unlike most other maps, this one places stuff randomly on the continent.
    // Settlements.
    int numSettlementsPerPlayer = 2 + (1 * getMapSizeBonusFactor());
@@ -230,17 +207,6 @@ void generate()
                          0.0, continentRadiusMeters, 60.0);
 
    generateLocs("settlement locs");
-
-//   if(gameIs1v1() == true)
-//   {
-//      addSimObjectLocsPerPlayerPair(firstSettlementID, false, 1, 60.0, 80.0, cSettlementDist1v1, cBiasBackward);
-//      addSimObjectLocsPerPlayerPair(secondSettlementID, false, 1, 80.0, 120.0, cSettlementDist1v1, cBiasAggressive);
-//   }
-//   else
-//   {
-//      addObjectLocsPerPlayer(firstSettlementID, false, 1, 60.0, 80.0, cCloseSettlementDist, cBiasBackward | cBiasAllyInside);
-//      addObjectLocsPerPlayer(secondSettlementID, false, 1, 80.0, 120.0, cFarSettlementDist, cBiasAggressive | cBiasAllyOutside);
-//   }
 
    // Relics.
    float avoidRelicMeters = 60.0;
@@ -436,49 +402,6 @@ void generate()
    // Let everything avoid the center.
    int resAvoidCenter = rmCreateAreaDistanceConstraint(centerID, 10.0);
 
-   // Starting objects.
-   // Starting gold.
-//   int startingGoldID = rmObjectDefCreate("starting gold");
-//   rmObjectDefAddItem(startingGoldID, cUnitTypeMineGoldMedium, 1);
-//   rmObjectDefAddConstraint(startingGoldID, vDefaultGoldAvoidAll);
-//   rmObjectDefAddConstraint(startingGoldID, vDefaultGoldAvoidImpassableLand);
-//   rmObjectDefAddConstraint(startingGoldID, vDefaultStartingGoldAvoidTower);
-//   rmObjectDefAddConstraint(startingGoldID, vDefaultForceStartingGoldNearTower);
-//   addObjectLocsPerPlayer(startingGoldID, false, 1, cStartingGoldMinDist, cStartingGoldMaxDist, cStartingObjectAvoidanceMeters);
-
-//   generateLocs("starting gold locs");
-
-   // Berries.
-//   int startingBerriesID = rmObjectDefCreate("starting berries");
-//   rmObjectDefAddItem(startingBerriesID, cUnitTypeBerryBush, xsRandInt(4, 6), cBerryClusterRadius);
-//   rmObjectDefAddConstraint(startingBerriesID, vDefaultBerriesAvoidAll);
-//   rmObjectDefAddConstraint(startingBerriesID, vDefaultBerriesAvoidImpassableLand);
-//   addObjectLocsPerPlayer(startingBerriesID, false, 1, cStartingBerriesMinDist, cStartingBerriesMaxDist, cStartingObjectAvoidanceMeters);
-
-   // Starting hunt.
-//   int startingHuntID = rmObjectDefCreate("starting hunt");
-//   rmObjectDefAddItem(startingHuntID, cUnitTypeDeer, xsRandInt(7, 8));
-//   rmObjectDefAddConstraint(startingHuntID, vDefaultFoodAvoidAll);
-//   rmObjectDefAddConstraint(startingHuntID, vDefaultFoodAvoidImpassableLand);
-//   rmObjectDefAddConstraint(startingHuntID, vDefaultForceInTowerLOS);
-//   addObjectLocsPerPlayer(startingHuntID, false, 1, cStartingHuntMinDist, cStartingHuntMaxDist, cStartingObjectAvoidanceMeters);
-
-   // Chicken.
-//   int startingChickenID = rmObjectDefCreate("starting chicken");
-//   rmObjectDefAddItem(startingChickenID, cUnitTypeChickenEvil, xsRandInt(4, 6));
-//   rmObjectDefAddConstraint(startingChickenID, vDefaultFoodAvoidAll);
-//   rmObjectDefAddConstraint(startingChickenID, vDefaultFoodAvoidImpassableLand);
-//   addObjectLocsPerPlayer(startingChickenID, false, 1, cStartingChickenMinDist, cStartingChickenMaxDist, cStartingObjectAvoidanceMeters);
-
-   // Herdables.
-//   int startingHerdID = rmObjectDefCreate("starting herd");
-//   rmObjectDefAddItem(startingHerdID, cUnitTypeGoat, xsRandInt(2, 4));
-//   rmObjectDefAddConstraint(startingHerdID, vDefaultHerdAvoidAll);
-//   rmObjectDefAddConstraint(startingHerdID, vDefaultHerdAvoidImpassableLand);
-//   addObjectLocsPerPlayer(startingHerdID, true, 1, cStartingHerdMinDist, cStartingHerdMaxDist);
-
-//   generateLocs("starting food locs");
-
    rmSetProgress(0.5);
 
    // Gold.
@@ -496,56 +419,6 @@ void generate()
    rmObjectDefAddConstraint(goldID, avoidRelicArea);
    addObjectLocsAtOrigin(goldID, xsRandInt(4, 5) * getMapAreaSizeFactor() * cNumberPlayers , cCenterLoc,
                          0.0, continentRadiusMeters, avoidGoldMeters);
-
-   generateLocs("gold locs");
-   // Medium gold.
-//   int closeGoldID = rmObjectDefCreate("close gold");
-//   rmObjectDefAddItem(closeGoldID, cUnitTypeMineGoldLarge, 1);
-//   rmObjectDefAddConstraint(closeGoldID, resAvoidCenter);
-//   rmObjectDefAddConstraint(closeGoldID, vDefaultGoldAvoidAll);
-//   rmObjectDefAddConstraint(closeGoldID, vDefaultGoldAvoidImpassableLand);
-//   rmObjectDefAddConstraint(closeGoldID, vDefaultAvoidCorner40);
-//   rmObjectDefAddConstraint(closeGoldID, vDefaultAvoidTowerLOS);
-//   rmObjectDefAddConstraint(closeGoldID, vDefaultAvoidSettlementRange);
-//   rmObjectDefAddConstraint(closeGoldID, avoidRelicArea);
-//   addObjectDefPlayerLocConstraint(closeGoldID, 50.0);
-//   if(gameIs1v1() == true)
-//   {
-//      addSimObjectLocsPerPlayerPair(closeGoldID, false, 1, 50.0, 70.0, avoidGoldMeters, cBiasForward);
-//      if(xsRandBool(0.5) == true)
-//      {
-//         addObjectLocsPerPlayer(closeGoldID, false, 1, 50.0, 70.0, avoidGoldMeters, cBiasForward);
-//      }
-//   }
-//   else
-//   {
-//      addObjectLocsPerPlayer(closeGoldID, false, 1, 50.0, 70.0, avoidGoldMeters);
-//      if(xsRandBool(0.5) == true)
-//      {
-//         addObjectLocsPerPlayer(closeGoldID, false, 1, 50.0, 70.0, avoidGoldMeters);
-//      }
-//   }
-
-   // Bonus gold.
-//   int bonusGoldID = rmObjectDefCreate("bonus gold");
-//   rmObjectDefAddItem(bonusGoldID, cUnitTypeMineGoldLarge, 1);
-//   rmObjectDefAddConstraint(bonusGoldID, resAvoidCenter);
-//   rmObjectDefAddConstraint(bonusGoldID, vDefaultGoldAvoidAll);
-//   rmObjectDefAddConstraint(bonusGoldID, vDefaultGoldAvoidImpassableLand);
-//   rmObjectDefAddConstraint(bonusGoldID, vDefaultAvoidCorner40);
-//   rmObjectDefAddConstraint(bonusGoldID, vDefaultAvoidTowerLOS);
-//   rmObjectDefAddConstraint(bonusGoldID, vDefaultAvoidSettlementRange);
-//   rmObjectDefAddConstraint(bonusGoldID, avoidRelicArea);
-//   addObjectDefPlayerLocConstraint(bonusGoldID, 75.0);
-
-//   if(gameIs1v1() == true)
-//   {
-//      addObjectLocsPerPlayer(bonusGoldID, false, 3 * getMapAreaSizeFactor(), 75.0, -1.0, avoidGoldMeters);
-//   }
-//   else
-//   {
-//      addObjectLocsPerPlayer(bonusGoldID, false, 3 * getMapAreaSizeFactor(), 75.0, -1.0, avoidGoldMeters);
-//   }
 
    generateLocs("gold locs");
 
@@ -570,70 +443,6 @@ void generate()
    {
       addObjectLocsPerPlayer(closeHuntID, false, 2, 60.0, 90.0, avoidHuntMeters);
    }
-
-   // Far hunt.
-//   float farHuntFloat = xsRandFloat(0.0, 1.0);
-//   int farHuntID = rmObjectDefCreate("far hunt");
-//   if(farHuntFloat < 1.0 / 3.0)
-//   {
-//      rmObjectDefAddItem(farHuntID, cUnitTypeElk, xsRandInt(5, 9));
-//   }
-//   else if(farHuntFloat < 2.0 / 3.0)
-//   {
-//      rmObjectDefAddItem(farHuntID, cUnitTypeCaribou, xsRandInt(5, 9));
-//   }
-//   else
-//   {
-//      rmObjectDefAddItem(farHuntID, cUnitTypeAurochs, xsRandInt(2, 3));
-//   }
-//   rmObjectDefAddConstraint(farHuntID, resAvoidCenter);
-//   rmObjectDefAddConstraint(farHuntID, vDefaultFoodAvoidAll);
-//   rmObjectDefAddConstraint(farHuntID, vDefaultFoodAvoidImpassableLand);
-//   rmObjectDefAddConstraint(farHuntID, vDefaultAvoidTowerLOS);
-//   rmObjectDefAddConstraint(farHuntID, vDefaultAvoidSettlementRange);
-//   rmObjectDefAddConstraint(farHuntID, avoidRelicArea);
-//   addObjectDefPlayerLocConstraint(farHuntID, 75.0);
-//   if(gameIs1v1() == true)
-//   {
-//      addSimObjectLocsPerPlayerPair(farHuntID, false, 1, 80.0, 110.0, avoidHuntMeters);
-//   }
-//   else
-//   {
-//      addObjectLocsPerPlayer(farHuntID, false, 1, 80.0, 110.0, avoidHuntMeters);
-//   }
-//
-   // Other map sizes hunt.
-//   if (cMapSizeCurrent > cMapSizeStandard)
-//   {
-//      int numLargeMapHunt = 1 * getMapSizeBonusFactor();
-//      for(int i = 0; i < numLargeMapHunt; i++)
-//      {
-//         float largeMapHuntFloat = xsRandFloat(0.0, 1.0);
-//         int largeMapHuntID = rmObjectDefCreate("large map hunt" + i);
-//         if(largeMapHuntFloat < 1.0 / 3.0)
-//         {
-//            rmObjectDefAddItem(largeMapHuntID, cUnitTypeAurochs, xsRandInt(2, 4));
-//         }
-//         else if(largeMapHuntFloat < 2.0 / 3.0)
-//         {
-//            rmObjectDefAddItem(largeMapHuntID, cUnitTypeDeer, xsRandInt(7, 11));
-//         }
-//         else
-//         {
-//            rmObjectDefAddItem(largeMapHuntID, cUnitTypeElk, xsRandInt(4, 8));
-//            rmObjectDefAddItem(largeMapHuntID, cUnitTypeCaribou, xsRandInt(3, 7));
-//         }
-//
-///         rmObjectDefAddConstraint(largeMapHuntID, resAvoidCenter);
-//         rmObjectDefAddConstraint(largeMapHuntID, vDefaultFoodAvoidAll);
-//         rmObjectDefAddConstraint(largeMapHuntID, vDefaultFoodAvoidImpassableLand);
-//         rmObjectDefAddConstraint(largeMapHuntID, vDefaultAvoidTowerLOS);
-//         rmObjectDefAddConstraint(largeMapHuntID, vDefaultAvoidSettlementRange);
-//         rmObjectDefAddConstraint(largeMapHuntID, avoidRelicArea);
-//         addObjectDefPlayerLocConstraint(largeMapHuntID, 100.0);
-//         addObjectLocsPerPlayer(largeMapHuntID, false, 1, 100.0, -1.0, avoidHuntMeters);
-//      }
-//   }
 
    generateLocs("hunt locs");
 
@@ -713,20 +522,6 @@ void generate()
    float avoidForestMeters = 25.0;
 
    // Starting forests.
-   int startingForestDefID = rmAreaDefCreate("starting forest");
-   rmAreaDefSetSizeRange(startingForestDefID, rmTilesToAreaFraction(50), rmTilesToAreaFraction(75));
-   rmAreaDefSetForestType(startingForestDefID, forestTypeID);
-   rmAreaDefSetBlobs(startingForestDefID, 4, 5);
-   rmAreaDefSetBlobDistance(startingForestDefID, 10.0);
-   rmAreaDefAddToClass(startingForestDefID, forestClassID);
-   rmAreaDefAddConstraint(startingForestDefID, vDefaultAvoidCollideable8);
-   rmAreaDefAddConstraint(startingForestDefID, vDefaultForestAvoidTownCenter);
-   rmAreaDefAddConstraint(startingForestDefID, vDefaultAvoidSettlementWithFarm);
-   rmAreaDefAddConstraint(startingForestDefID, vDefaultAvoidImpassableLand16);
-   rmAreaDefAddConstraint(startingForestDefID, forestAvoidForest);
-   rmAreaDefAddConstraint(startingForestDefID, rmCreateClassDistanceConstraint(relicPathClassID, 1.0));
-   addAreaLocsPerPlayer(startingForestDefID, 3, cDefaultPlayerForestOriginMinDist, cDefaultPlayerForestOriginMaxDist, avoidForestMeters);
-
    // Edge forests.
    int edgeForestDefID = rmAreaDefCreate("edge forest");
    rmAreaDefSetSizeRange(edgeForestDefID, rmTilesToAreaFraction(50), rmTilesToAreaFraction(100));
@@ -746,32 +541,20 @@ void generate()
    addAreaLocsPerPlayer(edgeForestDefID, 8 * getMapAreaSizeFactor(), 0.0, -1.0, avoidForestMeters);
 
    // Main forests.
-   int mainForestDefID = rmAreaDefCreate("main forest");
-   rmAreaDefSetSizeRange(mainForestDefID, rmTilesToAreaFraction(50), rmTilesToAreaFraction(100));
-   rmAreaDefSetForestType(mainForestDefID, forestTypeID);
-   rmAreaDefSetBlobs(mainForestDefID, 2, 5);
-   rmAreaDefSetBlobDistance(mainForestDefID, 10.0);
-   rmAreaDefAddToClass(mainForestDefID, forestClassID);
-   rmAreaDefAddConstraint(mainForestDefID, vDefaultAvoidAll8);
-   rmAreaDefAddConstraint(mainForestDefID, vDefaultForestAvoidTownCenter);
-   rmAreaDefAddConstraint(mainForestDefID, vDefaultAvoidSettlementWithFarm);
-   rmAreaDefAddConstraint(mainForestDefID, forestAvoidCenter);
-   rmAreaDefAddConstraint(mainForestDefID, forestAvoidForest);
-   rmAreaDefAddConstraint(mainForestDefID, vDefaultAvoidImpassableLand16);
-   rmAreaDefAddConstraint(mainForestDefID, rmCreateClassDistanceConstraint(relicAreaClassID, 1.0));
-   addAreaLocsPerPlayer(mainForestDefID, 6 * getMapAreaSizeFactor(), 0.0, -1.0, avoidForestMeters);
+   float avoidForestMeters = 35.0;
+
+   int forestDefID = rmAreaDefCreate("forest");
+   rmAreaDefSetSizeRange(forestDefID, rmTilesToAreaFraction(50), rmTilesToAreaFraction(80));
+   rmAreaDefSetForestType(forestDefID, forestTypeID);
+   rmAreaDefSetAvoidSelfDistance(forestDefID, avoidForestMeters);
+   rmAreaDefAddConstraint(forestDefID, vDefaultForestAvoidAll);
+   rmAreaDefAddConstraint(forestDefID, forestAvoidCenter);
+   rmAreaDefAddConstraint(forestDefID, vDefaultAvoidImpassableLand8);
+   rmAreaDefAddConstraint(forestDefID, vDefaultAvoidSettlementWithFarm);
+
+   rmAreaDefCreateAndBuildAreas(forestDefID, 8 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Outer forests.
-   int outerForestDefID = rmAreaDefCreate("outer forest");
-   rmAreaDefSetSizeRange(outerForestDefID, rmTilesToAreaFraction(25), rmTilesToAreaFraction(50));
-   rmAreaDefSetForestType(outerForestDefID, forestTypeID);
-   rmAreaDefSetBlobs(outerForestDefID, 2, 5);
-   rmAreaDefSetBlobDistance(outerForestDefID, 10.0);
-   rmAreaDefAddToClass(outerForestDefID, forestClassID);
-   rmAreaDefAddConstraint(outerForestDefID, vDefaultAvoidSettlementWithFarm);
-   rmAreaDefAddConstraint(outerForestDefID, forestAvoidForest);
-   rmAreaDefAddConstraint(outerForestDefID, rmCreatePassabilityDistanceConstraint(cPassabilityLand, true, 10.0));
-   addAreaLocsPerPlayer(outerForestDefID, 20 * getMapAreaSizeFactor(), 0.0, -1.0, avoidForestMeters);
 
    generateLocs("forest locs");
 
@@ -989,4 +772,6 @@ void generate()
    rmObjectDefPlaceAnywhere(birdID, 0, 2 * cNumberPlayers * getMapAreaSizeFactor());
 
    rmSetProgress(1.0);
+
+   generateTriggers();
 }

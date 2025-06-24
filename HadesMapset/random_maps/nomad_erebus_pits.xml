@@ -1,9 +1,9 @@
 ﻿<?xml version = "1.0" encoding = "UTF-8"?>
 <mapinfo 
-    displayName = "Mount Erebus (Nomad)" 
-    detailsText = "Conquer the pits of Hades, where lost relics are guarded by Shades of the dead. Your Villagers start scattered with no Town Center, and must race to claim a Settlement during the time that combat is prevented." 
+    displayName = "Mount Erebus (Nomad)"
+    detailsText = "Conquer the pits of Hades, where lost relics are guarded by Shades of the dead. Your Villagers start scattered with no Town Center, and must race to claim a Settlement during the time that combat is prevented."
     loadDetailsText="Conquer the pits of Hades, where lost relics are guarded by Shades of the dead.  Your Villagers start scattered with no Town Center, and must race to claim a Settlement during the time that combat is prevented. Will you choose an easily defensible location or one near many resources?"
-    imagepath = "resources\maps\map_picker\mount_olympus.png" 
+    imagepath = "resources\maps\map_picker\erebuspits_nomad.png"
     loadBackground="resources\maps\previews\mount_olympus.png"
     landmap="">
 </mapinfo>

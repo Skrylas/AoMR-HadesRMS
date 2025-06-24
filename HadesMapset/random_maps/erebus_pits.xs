@@ -669,16 +669,16 @@ void generate()
    addAreaLocsPerPlayer(mainForestDefID, 6 * getMapAreaSizeFactor(), 0.0, -1.0, avoidForestMeters);
 
    // Outer forests.
-   int outerForestDefID = rmAreaDefCreate("outer forest");
-   rmAreaDefSetSizeRange(outerForestDefID, rmTilesToAreaFraction(25), rmTilesToAreaFraction(50));
-   rmAreaDefSetForestType(outerForestDefID, forestTypeID);
-   rmAreaDefSetBlobs(outerForestDefID, 2, 5);
-   rmAreaDefSetBlobDistance(outerForestDefID, 10.0);
-   rmAreaDefAddToClass(outerForestDefID, forestClassID);
-   rmAreaDefAddConstraint(outerForestDefID, vDefaultAvoidSettlementWithFarm);
-   rmAreaDefAddConstraint(outerForestDefID, forestAvoidForest);
-   rmAreaDefAddConstraint(outerForestDefID, rmCreatePassabilityDistanceConstraint(cPassabilityLand, true, 10.0));
-   addAreaLocsPerPlayer(outerForestDefID, 20 * getMapAreaSizeFactor(), 0.0, -1.0, avoidForestMeters);
+//   int outerForestDefID = rmAreaDefCreate("outer forest");
+//   rmAreaDefSetSizeRange(outerForestDefID, rmTilesToAreaFraction(25), rmTilesToAreaFraction(50));
+//   rmAreaDefSetForestType(outerForestDefID, forestTypeID);
+//   rmAreaDefSetBlobs(outerForestDefID, 2, 5);
+//   rmAreaDefSetBlobDistance(outerForestDefID, 10.0);
+//   rmAreaDefAddToClass(outerForestDefID, forestClassID);
+//   rmAreaDefAddConstraint(outerForestDefID, vDefaultAvoidSettlementWithFarm);
+//   rmAreaDefAddConstraint(outerForestDefID, forestAvoidForest);
+//   rmAreaDefAddConstraint(outerForestDefID, rmCreatePassabilityDistanceConstraint(cPassabilityLand, true, 10.0));
+//   addAreaLocsPerPlayer(outerForestDefID, 20 * getMapAreaSizeFactor(), 0.0, -1.0, avoidForestMeters);
 
    generateLocs("forest locs");
 
