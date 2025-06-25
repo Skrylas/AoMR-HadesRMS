@@ -206,6 +206,15 @@ void generate()
    rmSetProgress(0.4);
 
    // Starting objects.
+   // Vault
+   int startingVaultID = rmObjectDefCreate("starting vault");
+   rmObjectDefAddItem(startingVaultID, cUnitTypePlentyVault, 1);
+   rmObjectDefAddConstraint(startingVaultID, forceOnPlateau); 
+   rmObjectDefAddConstraint(startingVaultID, rmCreateTerrainTypeDistanceConstraint(cTerrainHadesRoad1, 10.0));
+   addObjectLocsPerPlayer(startingVaultID, true, 1, 25.0, 25.0, cBiasDeadBehind);
+
+   generateLocs("starting vault");
+
    // Starting gold.
    int startingGoldID = rmObjectDefCreate("starting gold");
    rmObjectDefAddItem(startingGoldID, cUnitTypeMineGoldMedium, 1);
@@ -215,26 +224,16 @@ void generate()
    addObjectLocsPerPlayer(startingGoldID, false, 1, 20.0, 20.0, cStartingObjectAvoidanceMeters);
 
    generateLocs("starting gold locs");
-   
-   // Berries.
-   int startingBerriesID = rmObjectDefCreate("starting berries");
-   rmObjectDefAddItem(startingBerriesID, cUnitTypePlentyVault, 1, cBerryClusterRadius);
-   rmObjectDefAddConstraint(startingBerriesID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(startingBerriesID, vDefaultBerriesAvoidAll);
-   rmObjectDefAddConstraint(startingBerriesID, vDefaultBerriesAvoidImpassableLand);
-   rmObjectDefAddConstraint(startingBerriesID, forceOnPlateau);
-   rmObjectDefAddConstraint(startingBerriesID, rmCreateTerrainTypeDistanceConstraint(cTerrainHadesRoad1, 10.0));
-   addObjectLocsPerPlayer(startingBerriesID, false, 1, 25.0, 25.0, cStartingObjectAvoidanceMeters);
 
    // Starting hunt, reduced range to account for not having typical starting towers.
    int startingHuntID = rmObjectDefCreate("starting hunt");
    if(xsRandBool(0.5) == true)
    {
-      rmObjectDefAddItem(startingHuntID, cUnitTypeDeer, xsRandInt(7, 9));
+      rmObjectDefAddItem(startingHuntID, cUnitTypeDeer, xsRandInt(8, 9));
    }
    else
    {
-      rmObjectDefAddItem(startingHuntID, cUnitTypeBoar, xsRandInt(4, 5));
+      rmObjectDefAddItem(startingHuntID, cUnitTypeBoar, xsRandInt(5, 6));
    }
    rmObjectDefAddConstraint(startingHuntID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(startingHuntID, vDefaultFoodAvoidAll);
@@ -280,7 +279,7 @@ void generate()
    }
    else
    {
-      addObjectLocsPerPlayer(closeGoldID, false, 1, 45.0, 90.0, 0.0);
+      addObjectLocsPerPlayer(closeGoldID, false, 2, 45.0, 90.0, 0.0);
    }
 
    generateLocs("medium gold locs");
@@ -327,11 +326,11 @@ void generate()
       }
       else if(farHuntFloat < 2.0 / 3.0)
       {
-         rmObjectDefAddItem(farHuntID, cUnitTypeBoar, xsRandInt(3, 5));
+         rmObjectDefAddItem(farHuntID, cUnitTypeBoar, xsRandInt(4, 6));
       }
       else
       {
-         rmObjectDefAddItem(farHuntID, cUnitTypeAurochs, xsRandInt(3, 4));
+         rmObjectDefAddItem(farHuntID, cUnitTypeAurochs, xsRandInt(4, 5));
       }
       rmObjectDefAddConstraint(farHuntID, vDefaultAvoidEdge);
       rmObjectDefAddConstraint(farHuntID, vDefaultFoodAvoidAll);
@@ -354,11 +353,11 @@ void generate()
       }
       else if(largeHuntFloat < 2.0 / 3.0)
       {
-         rmObjectDefAddItem(largeMapHuntID, cUnitTypeBoar, xsRandInt(3, 6));
+         rmObjectDefAddItem(largeMapHuntID, cUnitTypeBoar, xsRandInt(4, 7));
       }
       else
       {
-         rmObjectDefAddItem(largeMapHuntID, cUnitTypeAurochs, xsRandInt(3, 6));
+         rmObjectDefAddItem(largeMapHuntID, cUnitTypeAurochs, xsRandInt(4, 7);
       }
 
       rmObjectDefAddConstraint(largeMapHuntID, vDefaultAvoidEdge);
@@ -376,21 +375,21 @@ void generate()
    rmSetProgress(0.7);
 
    // Berries.
-   float avoidBerriesMeters = 50.0;
-  
-   int berriesID = rmObjectDefCreate("berries");
-   rmObjectDefAddItem(berriesID, cUnitTypeBerryBush, xsRandInt(7, 10), cBerryClusterRadius);
-   rmObjectDefAddItem(berriesID, cTerrainHadesDirt1, xsRandInt(2, 3), 4.0);
-   rmObjectDefAddConstraint(berriesID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(berriesID, vDefaultBerriesAvoidAll);
-   rmObjectDefAddConstraint(berriesID, vDefaultBerriesAvoidImpassableLand);
-   rmObjectDefAddConstraint(berriesID, vDefaultAvoidTowerLOS);
-   rmObjectDefAddConstraint(berriesID, vDefaultAvoidSettlementRange);
-   rmObjectDefAddConstraint(berriesID, avoidPlateau);
-   addObjectDefPlayerLocConstraint(berriesID, 80.0);
-   addObjectLocsPerPlayer(berriesID, false, 1 * getMapSizeBonusFactor(), 80.0, -1.0, avoidBerriesMeters);
+//   float avoidBerriesMeters = 50.0;
+//  
+//   int berriesID = rmObjectDefCreate("berries");
+//   rmObjectDefAddItem(berriesID, cUnitTypeBerryBush, xsRandInt(7, 10), cBerryClusterRadius);
+//   rmObjectDefAddItem(berriesID, cTerrainHadesDirt1, xsRandInt(2, 3), 4.0);
+//   rmObjectDefAddConstraint(berriesID, vDefaultAvoidEdge);
+//   rmObjectDefAddConstraint(berriesID, vDefaultBerriesAvoidAll);
+//   rmObjectDefAddConstraint(berriesID, vDefaultBerriesAvoidImpassableLand);
+//   rmObjectDefAddConstraint(berriesID, vDefaultAvoidTowerLOS);
+//   rmObjectDefAddConstraint(berriesID, vDefaultAvoidSettlementRange);
+//   rmObjectDefAddConstraint(berriesID, avoidPlateau);
+//   addObjectDefPlayerLocConstraint(berriesID, 80.0);
+//   addObjectLocsPerPlayer(berriesID, false, 1 * getMapSizeBonusFactor(), 80.0, -1.0, avoidBerriesMeters);
 
-   generateLocs("berries locs");
+//   generateLocs("berries locs");
 
    // Herdables.
    float avoidHerdMeters = 25.0;
@@ -460,7 +459,7 @@ void generate()
    rmObjectDefAddConstraint(relicID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(relicID, avoidPlateau);
    addObjectDefPlayerLocConstraint(relicID, 80.0);
-   addObjectLocsPerPlayer(relicID, false, 2 * getMapAreaSizeFactor(), 80.0, -1.0, avoidRelicMeters);
+   addObjectLocsPerPlayer(relicID, false, 3 * getMapAreaSizeFactor(), 80.0, -1.0, avoidRelicMeters);
 
    generateLocs("relic locs");
 
@@ -520,8 +519,8 @@ void generate()
    buildAreaUnderObjectDef(bonusGoldID, cTerrainHadesDirtRocks2, cTerrainHadesDirtRocks1, 6.0);
 
    // Berries areas.
-   buildAreaUnderObjectDef(startingBerriesID, cTerrainHadesDirt2, cTerrainHadesDirt1, 10.0);
-   buildAreaUnderObjectDef(berriesID, cTerrainHadesDirt2, cTerrainHadesDirt1, 10.0);
+//   buildAreaUnderObjectDef(startingBerriesID, cTerrainHadesDirt2, cTerrainHadesDirt1, 10.0);
+//   buildAreaUnderObjectDef(berriesID, cTerrainHadesDirt2, cTerrainHadesDirt1, 10.0);
    
    // Random trees.
    int randomTreeID = rmObjectDefCreate("random tree");
@@ -549,12 +548,14 @@ void generate()
    int rockMediumID = rmObjectDefCreate("rock medium");
    rmObjectDefAddItem(rockMediumID, cUnitTypeRockHadesMedium, 1);
    rmObjectDefAddConstraint(rockMediumID, vDefaultEmbellishmentAvoidAll);
+   rmObjectDefAddConstraint(randomTreeID, vDefaultAvoidSettlementWithFarm);
    rmObjectDefAddConstraint(rockMediumID, rmCreateTerrainTypeMaxDistanceConstraint(cTerrainHadesCliff1, 2.0));
    rmObjectDefPlaceAnywhere(rockMediumID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
 
    int stalagmiteID = rmObjectDefCreate("stalagmite");
    rmObjectDefAddItem(stalagmiteID, cUnitTypeStalagmite , 1);
    rmObjectDefAddConstraint(stalagmiteID, vDefaultEmbellishmentAvoidAll);
+   rmObjectDefAddConstraint(randomTreeID, vDefaultAvoidSettlementWithFarm);   
    rmObjectDefAddConstraint(stalagmiteID, rmCreateTerrainTypeMaxDistanceConstraint(cTerrainHadesCliff1, 2.0));
    rmObjectDefPlaceAnywhere(stalagmiteID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
 

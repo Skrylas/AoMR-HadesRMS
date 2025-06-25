@@ -8,19 +8,21 @@ void generate()
    // Define mixes.
    int baseMixID = rmCustomMixCreate();
    rmCustomMixSetPaintParams(baseMixID, cNoiseFractalSum, 0.2, 1);
-   rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptSavannah2, 3.0);
-   rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptSavannah1, 1.0);
-   rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptDirt2, 1.0);
-   rmCustomMixAddPaintEntry(baseMixID, cTerrainEgyptDirt3, 1.0);
+   rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirt1, 3.0);
+   rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirt2, 1.0);
+   rmCustomMixAddPaintEntry(baseMixID, cTerrainChineseHellDirt, 2.0);
+   rmCustomMixAddPaintEntry(baseMixID, cTerrainChineseHellDirtRocks, 1.0);
+   rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirtRocks1, 1.0);
+   rmCustomMixAddPaintEntry(baseMixID, cTerrainHadesDirtRocks2, 1.0);
 
    // Water overrides.
-   rmWaterTypeAddBeachLayer(cWaterEgyptWateringHole, cTerrainEgyptBeach1, 3.0, 2.0);
-   rmWaterTypeAddBeachLayer(cWaterEgyptWateringHole, cTerrainEgyptSavannah2, 6.0, 2.0);
+//   rmWaterTypeAddBeachLayer(cWaterEgyptWateringHole, cTerrainEgyptBeach1, 3.0, 2.0);
+//   rmWaterTypeAddBeachLayer(cWaterEgyptWateringHole, cTerrainEgyptSavannah2, 6.0, 2.0);
 
    // Map size and terrain init.
    int axisTiles = (gameIs1v1() == true) ? getScaledAxisTiles(144) : getScaledAxisTiles(136);
    rmSetMapSize(axisTiles);
-   rmInitializeWater(cWaterEgyptWateringHole);
+   rmInitializeLand(cTerrainHadesLava2);
 
    // Player placement.
    float placementRadiusFraction = xsRandFloat(0.4, 0.425);
@@ -34,10 +36,10 @@ void generate()
    postPlayerPlacement();
 
    // Mother Nature's civ.
-   rmSetNatureCivFromCulture(cCultureEgyptian);
+   rmSetNatureCiv(cCivHades);
 
    // Lighting.
-   rmSetLighting(cLightingSetRmWateringHole01);
+   rmSetLighting(cLightingSetRandomMapsRiverStyx);
 
    rmSetProgress(0.1);
 
@@ -91,9 +93,15 @@ void generate()
    rmAreaSetMix(islandID, baseMixID);
    rmAreaSetLoc(islandID, cCenterLoc);
 
-   rmAreaSetHeight(islandID, 0.5);
+   rmAreaSetHeight(islandID, 10.0);
    rmAreaAddHeightBlend(islandID, cBlendAll, cFilter5x5Box, 5, 5.0);
    rmAreaSetEdgeSmoothDistance(islandID, 5);
+
+   rmAreaSetCliffType(islandID, cCliffHadesDirt);
+   rmAreaSetCliffSideRadius(islandID, 0, 2);
+   rmAreaSetCliffEmbellishmentDensity(islandID, 0.0);
+   rmAreaSetCliffLayerPaint(islandID, cCliffLayerOuterSideClose, false);
+   rmAreaSetCliffLayerPaint(islandID, cCliffLayerOuterSideFar, false);
 
    rmAreaAddConstraint(islandID, islandAvoidEdge);
    rmAreaAddConstraint(islandID, islandAvoidPlayerCore);
@@ -124,8 +132,14 @@ void generate()
       rmAreaSetMix(playerIslandID, baseMixID);
       rmAreaSetLocPlayer(playerIslandID, playerID);
 
-      rmAreaSetHeight(playerIslandID, 0.5);
+      rmAreaSetHeight(playerIslandID, 10.0);
       rmAreaAddHeightBlend(playerIslandID, cBlendAll, cFilter5x5Box, 2);
+
+      rmAreaSetCliffType(playerIslandID, cCliffHadesDirt);
+      rmAreaSetCliffSideRadius(playerIslandID, 0, 2);
+      rmAreaSetCliffEmbellishmentDensity(playerIslandID, 0.0);
+      rmAreaSetCliffLayerPaint(playerIslandID, cCliffLayerOuterSideClose, false);
+      rmAreaSetCliffLayerPaint(playerIslandID, cCliffLayerOuterSideFar, false);
 
       rmAreaAddConstraint(playerIslandID, playerIslandAvoidIsland);
       rmAreaAddConstraint(playerIslandID, playerIslandAvoidPlayerIsland);
@@ -198,7 +212,8 @@ void generate()
       {
          int pondID = rmAreaCreate("pond " + i);
          rmAreaSetSize(pondID, pondSize);
-         rmAreaSetWaterType(pondID, cWaterEgyptWateringHole);
+//         rmAreaSetWaterType(pondID, cWaterHadesRiver);
+         rmAreaSetCliffType(pondID, cCliffHadesLava);
 
          rmAreaSetHeight(pondID, 0.0);
          rmAreaSetEdgeSmoothDistance(pondID, 10);
@@ -228,14 +243,14 @@ void generate()
    int firstSettlementID = rmObjectDefCreate("first settlement");
    rmObjectDefAddItem(firstSettlementID, cUnitTypeSettlement, 1);
    rmObjectDefAddConstraint(firstSettlementID, vDefaultSettlementAvoidEdge);
-   rmObjectDefAddConstraint(firstSettlementID, vDefaultSettlementAvoidWater);
+//   rmObjectDefAddConstraint(firstSettlementID, vDefaultSettlementAvoidWater);
    rmObjectDefAddConstraint(firstSettlementID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(firstSettlementID, vDefaultAvoidCorner40);
 
    int secondSettlementID = rmObjectDefCreate("second settlement");
    rmObjectDefAddItem(secondSettlementID, cUnitTypeSettlement, 1);
    rmObjectDefAddConstraint(secondSettlementID, vDefaultSettlementAvoidEdge);
-   rmObjectDefAddConstraint(secondSettlementID, vDefaultSettlementAvoidWater);
+//   rmObjectDefAddConstraint(secondSettlementID, vDefaultSettlementAvoidWater);
    rmObjectDefAddConstraint(secondSettlementID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(secondSettlementID, vDefaultAvoidCorner40);
    rmObjectDefAddConstraint(secondSettlementID, avoidPlayerIsland);
@@ -261,7 +276,7 @@ void generate()
       int bonusSettlementID = rmObjectDefCreate("bonus settlement");
       rmObjectDefAddItem(bonusSettlementID, cUnitTypeSettlement, 1);
       rmObjectDefAddConstraint(bonusSettlementID, vDefaultSettlementAvoidEdge);
-      rmObjectDefAddConstraint(bonusSettlementID, vDefaultSettlementAvoidWater);
+//      rmObjectDefAddConstraint(bonusSettlementID, vDefaultSettlementAvoidWater);
       rmObjectDefAddConstraint(bonusSettlementID, vDefaultAvoidTowerLOS);
       rmObjectDefAddConstraint(bonusSettlementID, vDefaultAvoidCorner40);
       rmObjectDefAddConstraint(bonusSettlementID, vDefaultSettlementAvoidSiegeShipRange);
@@ -282,7 +297,7 @@ void generate()
          int fourthSettlementID = rmObjectDefCreate("fourth settlement");
          rmObjectDefAddItem(fourthSettlementID, cUnitTypeSettlement, 1);
          rmObjectDefAddConstraint(fourthSettlementID, vDefaultSettlementAvoidEdge);
-         rmObjectDefAddConstraint(fourthSettlementID, vDefaultSettlementAvoidWater);
+//         rmObjectDefAddConstraint(fourthSettlementID, vDefaultSettlementAvoidWater);
          rmObjectDefAddConstraint(fourthSettlementID, vDefaultAvoidTowerLOS);
          rmObjectDefAddConstraint(fourthSettlementID, vDefaultAvoidCorner);
          rmObjectDefAddConstraint(fourthSettlementID, vDefaultSettlementAvoidSiegeShipRange);
@@ -323,9 +338,16 @@ void generate()
 
             int connectionID = rmAreaCreate("settlement area " + ownerID);
             rmAreaSetMix(connectionID, baseMixID);
-            rmAreaSetHeight(connectionID, 1.0);
+            rmAreaSetHeight(connectionID, 10.0);
             rmAreaAddHeightBlend(connectionID, cBlendAll, cFilter5x5Box, 4, 2);
             rmAreaSetPath(connectionID, pathID, 15.0);
+
+            rmAreaSetCliffType(connectionID, cCliffHadesDirt);
+            rmAreaSetCliffSideRadius(connectionID, 0, 2);
+            rmAreaSetCliffEmbellishmentDensity(connectionID, 0.0);
+            rmAreaSetCliffLayerPaint(connectionID, cCliffLayerOuterSideClose, false);
+            rmAreaSetCliffLayerPaint(connectionID, cCliffLayerOuterSideFar, false);
+
             rmAreaAddTerrainConstraint(connectionID, settlementIgnoreRoad1Terrain);
             rmAreaAddTerrainConstraint(connectionID, settlementIgnoreRoad2Terrain);
             rmAreaBuild(connectionID);
@@ -343,7 +365,7 @@ void generate()
    int startingGoldID = rmObjectDefCreate("starting gold");
    rmObjectDefAddItem(startingGoldID, cUnitTypeMineGoldMedium, 1);
    rmObjectDefAddConstraint(startingGoldID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(startingGoldID, vDefaultGoldAvoidWater);
+//   rmObjectDefAddConstraint(startingGoldID, vDefaultGoldAvoidWater);
    rmObjectDefAddConstraint(startingGoldID, vDefaultStartingGoldAvoidTower);
    rmObjectDefAddConstraint(startingGoldID, vDefaultForceStartingGoldNearTower);
    addObjectLocsPerPlayer(startingGoldID, false, 1, cStartingGoldMinDist, cStartingGoldMaxDist, cStartingObjectAvoidanceMeters);
@@ -352,10 +374,10 @@ void generate()
 
    // Starting hunt.
    int startingHuntID = rmObjectDefCreate("starting hunt");
-   rmObjectDefAddItem(startingHuntID, cUnitTypeGazelle, 7);
+   rmObjectDefAddItem(startingHuntID, cUnitTypeDeer, 7);
    rmObjectDefAddConstraint(startingHuntID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(startingHuntID, vDefaultFoodAvoidAll);
-   rmObjectDefAddConstraint(startingHuntID, vDefaultFoodAvoidWater);
+//   rmObjectDefAddConstraint(startingHuntID, vDefaultFoodAvoidWater);
    rmObjectDefAddConstraint(startingHuntID, vDefaultForceInTowerLOS);
    addObjectLocsPerPlayer(startingHuntID, false, 1, cStartingHuntMinDist, cStartingHuntMaxDist, cStartingObjectAvoidanceMeters);
 
@@ -364,23 +386,23 @@ void generate()
    rmObjectDefAddItem(startingBerriesID, cUnitTypeBerryBush, xsRandInt(4, 6), cBerryClusterRadius);
    rmObjectDefAddConstraint(startingBerriesID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(startingBerriesID, vDefaultBerriesAvoidAll);
-   rmObjectDefAddConstraint(startingBerriesID, vDefaultBerriesAvoidWater);
+//   rmObjectDefAddConstraint(startingBerriesID, vDefaultBerriesAvoidWater);
    addObjectLocsPerPlayer(startingBerriesID, false, 1, cStartingBerriesMinDist, cStartingBerriesMaxDist, cStartingObjectAvoidanceMeters);
 
    // Chicken.
    int startingChickenID = rmObjectDefCreate("starting chicken");
-   rmObjectDefAddItem(startingChickenID, cUnitTypeChicken, xsRandInt(4, 6));
+   rmObjectDefAddItem(startingChickenID, cUnitTypeChickenEvil, xsRandInt(4, 6));
    rmObjectDefAddConstraint(startingChickenID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(startingChickenID, vDefaultFoodAvoidAll);
-   rmObjectDefAddConstraint(startingChickenID, vDefaultFoodAvoidWater);
+//   rmObjectDefAddConstraint(startingChickenID, vDefaultFoodAvoidWater);
    addObjectLocsPerPlayer(startingChickenID, false, 1, cStartingChickenMinDist, cStartingChickenMaxDist, cStartingObjectAvoidanceMeters);
 
    // Herdables.
    int startingHerdID = rmObjectDefCreate("starting herd");
-   rmObjectDefAddItem(startingHerdID, cUnitTypePig, xsRandInt(1, 2));
+   rmObjectDefAddItem(startingHerdID, cUnitTypeGoat, xsRandInt(1, 2));
    rmObjectDefAddConstraint(startingHerdID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(startingHerdID, vDefaultHerdAvoidAll);
-   rmObjectDefAddConstraint(startingHerdID, vDefaultHerdAvoidWater);
+//   rmObjectDefAddConstraint(startingHerdID, vDefaultHerdAvoidWater);
    addObjectLocsPerPlayer(startingHerdID, true, 1, cStartingHerdMinDist, cStartingHerdMaxDist);
 
    generateLocs("starting food locs");
@@ -393,7 +415,7 @@ void generate()
    rmObjectDefAddItem(playerGoldID, cUnitTypeMineGoldLarge, 1);
    rmObjectDefAddConstraint(playerGoldID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(playerGoldID, vDefaultGoldAvoidAll);
-   rmObjectDefAddConstraint(playerGoldID, vDefaultGoldAvoidWater);
+//   rmObjectDefAddConstraint(playerGoldID, vDefaultGoldAvoidWater);
    rmObjectDefAddConstraint(playerGoldID, vDefaultAvoidCorner40);
    rmObjectDefAddConstraint(playerGoldID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(playerGoldID, vDefaultAvoidSettlementRange);
@@ -443,7 +465,7 @@ void generate()
    rmObjectDefAddItem(bonusGoldID, cUnitTypeMineGoldLarge, 1);
    rmObjectDefAddConstraint(bonusGoldID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(bonusGoldID, vDefaultGoldAvoidAll);
-   rmObjectDefAddConstraint(bonusGoldID, vDefaultGoldAvoidWater);
+//   rmObjectDefAddConstraint(bonusGoldID, vDefaultGoldAvoidWater);
    rmObjectDefAddConstraint(bonusGoldID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(bonusGoldID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(bonusGoldID, avoidPlayerIsland);
@@ -467,15 +489,15 @@ void generate()
    int closeHuntID = rmObjectDefCreate("close hunt");
    if(xsRandBool(0.5) == true)
    {
-      rmObjectDefAddItem(closeHuntID, cUnitTypeHippopotamus, xsRandInt(2, 3));
+      rmObjectDefAddItem(closeHuntID, cUnitTypeBoar, xsRandInt(2, 3));
    }
    else
    {
-      rmObjectDefAddItem(closeHuntID, cUnitTypeRhinoceros, 2);
+      rmObjectDefAddItem(closeHuntID, cUnitTypeAurochs, 2);
    }
    rmObjectDefAddConstraint(closeHuntID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(closeHuntID, vDefaultFoodAvoidAll);
-   rmObjectDefAddConstraint(closeHuntID, vDefaultFoodAvoidWater);
+//   rmObjectDefAddConstraint(closeHuntID, vDefaultFoodAvoidWater);
    // rmObjectDefAddConstraint(closeHuntID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(closeHuntID, avoidIsland);
    rmObjectDefAddConstraint(closeHuntID, rmCreateTypeDistanceConstraint(cUnitTypeHuntable, avoidPlayerHuntMeters));
@@ -497,15 +519,15 @@ void generate()
       int playerHuntID = rmObjectDefCreate("player hunt " + i);
       if(xsRandBool(0.5) == true)
       {
-         rmObjectDefAddItem(playerHuntID, cUnitTypeZebra, xsRandInt(6, 10));
+         rmObjectDefAddItem(playerHuntID, cUnitTypeBoar, xsRandInt(4, 6));
       }
       else
       {
-         rmObjectDefAddItem(playerHuntID, cUnitTypeGazelle, xsRandInt(6, 10));
+         rmObjectDefAddItem(playerHuntID, cUnitTypeAurochs, xsRandInt(3, 5));
       }
       rmObjectDefAddConstraint(playerHuntID, vDefaultAvoidEdge);
       rmObjectDefAddConstraint(playerHuntID, vDefaultFoodAvoidAll);
-      rmObjectDefAddConstraint(playerHuntID, vDefaultFoodAvoidWater);
+//      rmObjectDefAddConstraint(playerHuntID, vDefaultFoodAvoidWater);
       rmObjectDefAddConstraint(playerHuntID, vDefaultAvoidTowerLOS);
       rmObjectDefAddConstraint(playerHuntID, vDefaultAvoidSettlementRange);
       rmObjectDefAddConstraint(playerHuntID, avoidIsland);
@@ -521,14 +543,14 @@ void generate()
 
    // Player hunt 3.
    int playerHunt3ID = rmObjectDefCreate("player hunt 3");
-   rmObjectDefAddItem(playerHunt3ID, cUnitTypeCrownedCrane, xsRandInt(5, 8));
+   rmObjectDefAddItem(playerHunt3ID, cUnitTypeDeer, xsRandInt(5, 8));
    rmObjectDefAddConstraint(playerHunt3ID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(playerHunt3ID, vDefaultFoodAvoidAll);
-   rmObjectDefAddConstraint(playerHunt3ID, vDefaultFoodAvoidWater);
+//   rmObjectDefAddConstraint(playerHunt3ID, vDefaultFoodAvoidWater);
    rmObjectDefAddConstraint(playerHunt3ID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(playerHunt3ID, vDefaultAvoidSettlementRange);
-   rmObjectDefAddConstraint(playerHunt3ID, vDefaultAvoidWater, cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(playerHunt3ID, rmCreateWaterMaxDistanceConstraint(true, 10.0), cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(playerHunt3ID, vDefaultAvoidWater, cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(playerHunt3ID, rmCreateWaterMaxDistanceConstraint(true, 10.0), cObjectConstraintBufferNone);
    rmObjectDefAddConstraint(playerHunt3ID, avoidIsland);
    if(gameIs1v1() == true)
    {
@@ -546,19 +568,19 @@ void generate()
       int playerHunt4ID = rmObjectDefCreate("player hunt 4");
       if(playerHunt4Float < 1.0 / 3.0)
       {
-         rmObjectDefAddItem(playerHunt4ID, cUnitTypeElephant, xsRandInt(1, 2));
+         rmObjectDefAddItem(playerHunt4ID, cUnitTypeBoar, xsRandInt(1, 2));
       }
       else if(playerHunt4Float < 2.0 / 3.0)
       {
-         rmObjectDefAddItem(playerHunt4ID, cUnitTypeHippopotamus, xsRandInt(3, 5));
+         rmObjectDefAddItem(playerHunt4ID, cUnitTypeAurochs, xsRandInt(3, 5));
       }
       else
       {
-         rmObjectDefAddItem(playerHunt4ID, cUnitTypeZebra, xsRandInt(3, 6));
+         rmObjectDefAddItem(playerHunt4ID, cUnitTypeDeer, xsRandInt(3, 6));
       }
       rmObjectDefAddConstraint(playerHunt4ID, vDefaultAvoidEdge);
       rmObjectDefAddConstraint(playerHunt4ID, vDefaultFoodAvoidAll);
-      rmObjectDefAddConstraint(playerHunt4ID, vDefaultFoodAvoidWater);
+//      rmObjectDefAddConstraint(playerHunt4ID, vDefaultFoodAvoidWater);
       rmObjectDefAddConstraint(playerHunt4ID, vDefaultAvoidTowerLOS);
       rmObjectDefAddConstraint(playerHunt4ID, vDefaultAvoidSettlementRange);
       rmObjectDefAddConstraint(playerHunt4ID, avoidIsland);
@@ -613,7 +635,7 @@ void generate()
       }
       rmObjectDefAddConstraint(bonusHuntID, vDefaultAvoidEdge);
       rmObjectDefAddConstraint(bonusHuntID, vDefaultFoodAvoidAll);
-      rmObjectDefAddConstraint(bonusHuntID, vDefaultFoodAvoidWater);
+//      rmObjectDefAddConstraint(bonusHuntID, vDefaultFoodAvoidWater);
       rmObjectDefAddConstraint(bonusHuntID, vDefaultAvoidTowerLOS);
       rmObjectDefAddConstraint(bonusHuntID, vDefaultAvoidSettlementRange);
       rmObjectDefAddConstraint(bonusHuntID, avoidPlayerIsland);
@@ -639,7 +661,7 @@ void generate()
    rmObjectDefAddItem(berriesID, cUnitTypeBerryBush, xsRandInt(5, 9), cBerryClusterRadius);
    rmObjectDefAddConstraint(berriesID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(berriesID, vDefaultFoodAvoidAll);
-   rmObjectDefAddConstraint(berriesID, vDefaultFoodAvoidWater);
+//   rmObjectDefAddConstraint(berriesID, vDefaultFoodAvoidWater);
    rmObjectDefAddConstraint(berriesID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(berriesID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(berriesID, avoidPlayerIsland);
@@ -662,7 +684,7 @@ void generate()
    rmObjectDefAddItem(closeHerdID, cUnitTypePig, xsRandInt(2, 3));
    rmObjectDefAddConstraint(closeHerdID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(closeHerdID, vDefaultHerdAvoidAll);
-   rmObjectDefAddConstraint(closeHerdID, vDefaultHerdAvoidWater);
+//   rmObjectDefAddConstraint(closeHerdID, vDefaultHerdAvoidWater);
    rmObjectDefAddConstraint(closeHerdID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(closeHerdID, avoidIsland);
    addObjectLocsPerPlayer(closeHerdID, false, 1, 50.0, 70.0, avoidHerdMeters, cBiasNone, cInAreaPlayer);
@@ -671,7 +693,7 @@ void generate()
    rmObjectDefAddItem(bonusHerdID, cUnitTypePig, xsRandInt(1, 2));
    rmObjectDefAddConstraint(bonusHerdID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(bonusHerdID, vDefaultHerdAvoidAll);
-   rmObjectDefAddConstraint(bonusHerdID, vDefaultHerdAvoidWater);
+//   rmObjectDefAddConstraint(bonusHerdID, vDefaultHerdAvoidWater);
    rmObjectDefAddConstraint(bonusHerdID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(bonusHerdID, avoidPlayerIsland);
    addObjectLocsPerPlayer(bonusHerdID, false, xsRandInt(1, 2) * getMapSizeBonusFactor(), 70.0, -1.0, avoidHerdMeters, cBiasNone, cInAreaTeam);
@@ -692,7 +714,7 @@ void generate()
    }
    rmObjectDefAddConstraint(playerPredatorID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(playerPredatorID, vDefaultFoodAvoidAll);
-   rmObjectDefAddConstraint(playerPredatorID, vDefaultFoodAvoidWater);
+//   rmObjectDefAddConstraint(playerPredatorID, vDefaultFoodAvoidWater);
    rmObjectDefAddConstraint(playerPredatorID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(playerPredatorID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(playerPredatorID, avoidIsland);
@@ -706,8 +728,8 @@ void generate()
    rmObjectDefAddConstraint(bonusPredatorID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(bonusPredatorID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(bonusPredatorID, avoidPlayerIsland);
-   rmObjectDefAddConstraint(bonusPredatorID, vDefaultAvoidWater, cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(bonusPredatorID, rmCreateWaterMaxDistanceConstraint(true, 4.0), cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(bonusPredatorID, vDefaultAvoidWater, cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(bonusPredatorID, rmCreateWaterMaxDistanceConstraint(true, 4.0), cObjectConstraintBufferNone);
    addObjectDefPlayerLocConstraint(bonusPredatorID, 70.0);
    addObjectLocsPerPlayer(bonusPredatorID, false, 1 * getMapAreaSizeFactor(), 50.0, -1.0, avoidPredatorMeters);
 
@@ -720,7 +742,7 @@ void generate()
    rmObjectDefAddItem(playerRelicID, cUnitTypeRelic, 1);
    rmObjectDefAddConstraint(playerRelicID, vDefaultAvoidAll);
    rmObjectDefAddConstraint(playerRelicID, vDefaultAvoidEdge);
-   rmObjectDefAddConstraint(playerRelicID, vDefaultAvoidWater4);
+//   rmObjectDefAddConstraint(playerRelicID, vDefaultAvoidWater4);
    rmObjectDefAddConstraint(playerRelicID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(playerRelicID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(playerRelicID, avoidIsland);
@@ -730,7 +752,7 @@ void generate()
    rmObjectDefAddItem(bonusRelicID, cUnitTypeRelic, 1);
    rmObjectDefAddConstraint(bonusRelicID, vDefaultAvoidEdge);
    rmObjectDefAddConstraint(bonusRelicID, vDefaultRelicAvoidAll);
-   rmObjectDefAddConstraint(bonusRelicID, vDefaultRelicAvoidWater);
+//   rmObjectDefAddConstraint(bonusRelicID, vDefaultRelicAvoidWater);
    rmObjectDefAddConstraint(bonusRelicID, vDefaultAvoidTowerLOS);
    rmObjectDefAddConstraint(bonusRelicID, vDefaultAvoidSettlementRange);
    rmObjectDefAddConstraint(bonusRelicID, rmCreateClassDistanceConstraint(playerIslandClassID, 15.0));
@@ -752,10 +774,10 @@ void generate()
 
    int forestDefID = rmAreaDefCreate("forest");
    rmAreaDefSetSizeRange(forestDefID, rmTilesToAreaFraction(50), rmTilesToAreaFraction(70));
-   rmAreaDefSetForestType(forestDefID, cForestEgyptSavannah);
+   rmAreaDefSetForestType(forestDefID, cForestHades);
    rmAreaDefSetAvoidSelfDistance(forestDefID, avoidForestMeters);
    rmAreaDefAddConstraint(forestDefID, vDefaultForestAvoidAll);
-   rmAreaDefAddConstraint(forestDefID, vDefaultAvoidWater4);
+//   rmAreaDefAddConstraint(forestDefID, vDefaultAvoidWater4);
    rmAreaDefAddConstraint(forestDefID, vDefaultAvoidSettlementWithFarm);
    rmAreaDefAddConstraint(forestDefID, vDefaultForestAvoidTownCenter);
 
@@ -780,101 +802,157 @@ void generate()
    buildAreaDefInTeamAreas(forestDefID, 12 * getMapAreaSizeFactor());
 
    // Stragglers.
-   placeStartingStragglers(cUnitTypeTreeSavannah);
+   placeStartingStragglers(cUnitTypeTreeHades);
 
    rmSetProgress(0.9);
 
    // Embellishment.
    // Gold areas.
-   buildAreaUnderObjectDef(startingGoldID, cTerrainEgyptDirtRocks2, cTerrainEgyptDirtRocks1, 6.0);
-   buildAreaUnderObjectDef(playerGoldID, cTerrainEgyptDirtRocks2, cTerrainEgyptDirtRocks1, 6.0);
-   buildAreaUnderObjectDef(bonusGoldID, cTerrainEgyptDirtRocks2, cTerrainEgyptDirtRocks1, 6.0);
+   buildAreaUnderObjectDef(startingGoldID, cTerrainHadesDirtRocks2, cTerrainHadesDirtRocks1, 6.0);
+   buildAreaUnderObjectDef(playerGoldID, cTerrainHadesDirtRocks2, cTerrainHadesDirtRocks1, 6.0);
+   buildAreaUnderObjectDef(bonusGoldID, cTerrainHadesDirtRocks2, cTerrainHadesDirtRocks1, 6.0);
 
    // Berries areas.
-   buildAreaUnderObjectDef(startingBerriesID, cTerrainEgyptSavannah2, cInvalidID, 10.0);
-   buildAreaUnderObjectDef(berriesID, cTerrainEgyptSavannah2, cInvalidID, 10.0);
+   buildAreaUnderObjectDef(startingBerriesID, cTerrainHadesDirt2, cInvalidID, 10.0);
+   buildAreaUnderObjectDef(berriesID, cTerrainHadesDirt2, cInvalidID, 10.0);
 
    // Random trees.
    int randomTreeID = rmObjectDefCreate("random tree");
-   rmObjectDefAddItem(randomTreeID, cUnitTypeTreeSavannah, 1);
+   rmObjectDefAddItem(randomTreeID, cUnitTypeTreeHades, 1);
    rmObjectDefAddConstraint(randomTreeID, vDefaultTreeAvoidAll);
    rmObjectDefAddConstraint(randomTreeID, vDefaultTreeAvoidCollideable);
-   rmObjectDefAddConstraint(randomTreeID, vDefaultTreeAvoidWater);
+//   rmObjectDefAddConstraint(randomTreeID, vDefaultTreeAvoidWater);
    rmObjectDefAddConstraint(randomTreeID, vDefaultTreeAvoidTree);
    rmObjectDefAddConstraint(randomTreeID, vDefaultAvoidSettlementWithFarm);
    rmObjectDefPlaceAnywhere(randomTreeID, 0, 5 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Rocks.
    int rockTinyID = rmObjectDefCreate("rock tiny");
-   rmObjectDefAddItem(rockTinyID, cUnitTypeRockEgyptTiny, 1);
+   rmObjectDefAddItem(rockTinyID, cUnitTypeRockHadesTiny, 1);
    rmObjectDefAddConstraint(rockTinyID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(rockTinyID, vDefaultEmbellishmentAvoidWater);
+//   rmObjectDefAddConstraint(rockTinyID, vDefaultEmbellishmentAvoidWater);
    rmObjectDefPlaceAnywhere(rockTinyID, 0,40 * cNumberPlayers * getMapAreaSizeFactor());
 
    int rockSmallID = rmObjectDefCreate("rock small");
-   rmObjectDefAddItem(rockSmallID, cUnitTypeRockEgyptSmall, 1);
+   rmObjectDefAddItem(rockSmallID, cUnitTypeRockHadesSmall, 1);
    rmObjectDefAddConstraint(rockSmallID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(rockSmallID, vDefaultEmbellishmentAvoidWater);
+//   rmObjectDefAddConstraint(rockSmallID, vDefaultEmbellishmentAvoidWater);
    rmObjectDefPlaceAnywhere(rockSmallID, 0, 40 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int deadtreeID = rmObjectDefCreate("dead tree");
+   rmObjectDefAddItem(deadtreeID, cUnitTypeDeadTreeTrunk, 1);
+   rmObjectDefAddConstraint(randomTreeID, vDefaultAvoidSettlementWithFarm);
+   rmObjectDefAddConstraint(deadtreeID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(deadtreeID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(deadtreeID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int stalagmiteID = rmObjectDefCreate("stalagmite");
+   rmObjectDefAddItem(stalagmiteID, cUnitTypeStalagmite, 1);
+   rmObjectDefAddConstraint(stalagmiteID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(stalagmiteID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefAddConstraint(randomTreeID, vDefaultAvoidSettlementWithFarm);  
+   rmObjectDefPlaceAnywhere(stalagmiteID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Plants.
    int plantGrassID = rmObjectDefCreate("plant grass");
-   rmObjectDefAddItem(plantGrassID, cUnitTypePlantEgyptianGrass, 1);
-   rmObjectDefAddConstraint(plantGrassID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(plantGrassID, vDefaultEmbellishmentAvoidWater);
-   rmObjectDefPlaceAnywhere(plantGrassID, 0, 35 * cNumberPlayers * getMapAreaSizeFactor());
+   rmObjectDefAddItem(plantGrassID, cUnitTypePlantHadesGrass, 1);
+//   rmObjectDefAddConstraint(plantGrassID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantGrassID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantGrassID, 0, 50 * cNumberPlayers * getMapAreaSizeFactor());
 
    int plantShrubID = rmObjectDefCreate("plant shrub");
-   rmObjectDefAddItem(plantShrubID, cUnitTypePlantEgyptianShrub, 1);
-   rmObjectDefAddConstraint(plantShrubID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(plantShrubID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefAddItem(plantShrubID, cUnitTypePlantHadesShrub, 1);
+//   rmObjectDefAddConstraint(plantShrubID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantShrubID, vDefaultEmbellishmentAvoidWater);
    rmObjectDefPlaceAnywhere(plantShrubID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
 
    int plantFernID = rmObjectDefCreate("plant fern");
-   rmObjectDefAddItem(plantFernID, cUnitTypePlantEgyptianFern, 1);
-   rmObjectDefAddConstraint(plantFernID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(plantFernID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefAddItem(plantFernID, cUnitTypePlantHadesFern, 1);
+//   rmObjectDefAddConstraint(plantFernID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantFernID, vDefaultEmbellishmentAvoidWater);
    rmObjectDefPlaceAnywhere(plantFernID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
 
+   int plantBushID = rmObjectDefCreate("plant bush");
+   rmObjectDefAddItem(plantBushID, cUnitTypePlantHadesBush, 1);
+//   rmObjectDefAddConstraint(plantBushID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantBushID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantBushID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int plantWeedID = rmObjectDefCreate("plant weed");
+   rmObjectDefAddItem(plantWeedID, cUnitTypePlantHadesWeeds, 1);
+//   rmObjectDefAddConstraint(plantWeedID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantWeedID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantWeedID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int plantGrassDID = rmObjectDefCreate("plant dgrass");
+   rmObjectDefAddItem(plantGrassID, cUnitTypePlantDeadGrass, 1);
+//   rmObjectDefAddConstraint(plantGrassID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantGrassID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantGrassID, 0, 50 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int plantShrubDID = rmObjectDefCreate("plant dshrub");
+   rmObjectDefAddItem(plantShrubID, cUnitTypePlantDeadShrub, 1);
+//   rmObjectDefAddConstraint(plantShrubID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantShrubID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantShrubID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int plantFernDID = rmObjectDefCreate("plant dfern");
+   rmObjectDefAddItem(plantFernDID, cUnitTypePlantDeadFern, 1);
+//   rmObjectDefAddConstraint(plantFernDID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantFernDID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantFernDID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int plantBushDID = rmObjectDefCreate("plant dbush");
+   rmObjectDefAddItem(plantBushDID, cUnitTypePlantDeadBush, 1);
+//   rmObjectDefAddConstraint(plantBushDID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantBushDID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantBushDID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
+
+   int plantWeedDID = rmObjectDefCreate("plant dweed");
+   rmObjectDefAddItem(plantWeedDID, cUnitTypePlantDeadWeeds, 1);
+//   rmObjectDefAddConstraint(plantWeedDID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(plantWeedDID, vDefaultEmbellishmentAvoidWater);
+   rmObjectDefPlaceAnywhere(plantWeedDID, 0, 25 * cNumberPlayers * getMapAreaSizeFactor());
+
    // Water lilies.
-   int lilyAvoidLand = rmCreateWaterDistanceConstraint(false, 2.0);
-   int lilyForceNearLand = rmCreateWaterMaxDistanceConstraint(false, 6.0);
+//   int lilyAvoidLand = rmCreateWaterDistanceConstraint(false, 2.0);
+//   int lilyForceNearLand = rmCreateWaterMaxDistanceConstraint(false, 6.0);
 
-   int waterLilyID = rmObjectDefCreate("lily");
-   rmObjectDefAddItem(waterLilyID, cUnitTypeWaterLily, 1);
-   rmObjectDefAddConstraint(waterLilyID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(waterLilyID, lilyAvoidLand, cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(waterLilyID, lilyForceNearLand, cObjectConstraintBufferNone);
-   rmObjectDefPlaceAnywhere(waterLilyID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
-
-   int waterLilyGroupID = rmObjectDefCreate("lily group");
-   rmObjectDefAddItem(waterLilyGroupID, cUnitTypeWaterLily, xsRandInt(2, 4), 4.0);
-   rmObjectDefAddConstraint(waterLilyGroupID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(waterLilyGroupID, lilyAvoidLand, cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(waterLilyGroupID, lilyForceNearLand, cObjectConstraintBufferNone);
-   rmObjectDefPlaceAnywhere(waterLilyGroupID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
+//   int waterLilyID = rmObjectDefCreate("lily");
+//   rmObjectDefAddItem(waterLilyID, cUnitTypeWaterLily, 1);
+//   rmObjectDefAddConstraint(waterLilyID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(waterLilyID, lilyAvoidLand, cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(waterLilyID, lilyForceNearLand, cObjectConstraintBufferNone);
+//   rmObjectDefPlaceAnywhere(waterLilyID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
+//
+//   int waterLilyGroupID = rmObjectDefCreate("lily group");
+//   rmObjectDefAddItem(waterLilyGroupID, cUnitTypeWaterLily, xsRandInt(2, 4), 4.0);
+//   rmObjectDefAddConstraint(waterLilyGroupID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(waterLilyGroupID, lilyAvoidLand, cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(waterLilyGroupID, lilyForceNearLand, cObjectConstraintBufferNone);
+//   rmObjectDefPlaceAnywhere(waterLilyGroupID, 0, 10 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Reeds.
-   int reedAvoidLand = rmCreateWaterDistanceConstraint(false, 2.0);
-   int reedForceNearLand = rmCreateWaterMaxDistanceConstraint(false, 4.0);
+//   int reedAvoidLand = rmCreateWaterDistanceConstraint(false, 2.0);
+//   int reedForceNearLand = rmCreateWaterMaxDistanceConstraint(false, 4.0);
 
-   int waterReedID = rmObjectDefCreate("reed");
-   rmObjectDefAddItem(waterReedID, cUnitTypeWaterReeds, 1);
-   rmObjectDefAddConstraint(waterReedID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(waterReedID, reedAvoidLand, cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(waterReedID, reedForceNearLand, cObjectConstraintBufferNone);
-   rmObjectDefPlaceAnywhere(waterReedID, 0, 15 * cNumberPlayers * getMapAreaSizeFactor());
+//   int waterReedID = rmObjectDefCreate("reed");
+//   rmObjectDefAddItem(waterReedID, cUnitTypeWaterReeds, 1);
+//   rmObjectDefAddConstraint(waterReedID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(waterReedID, reedAvoidLand, cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(waterReedID, reedForceNearLand, cObjectConstraintBufferNone);
+//   rmObjectDefPlaceAnywhere(waterReedID, 0, 15 * cNumberPlayers * getMapAreaSizeFactor());
 
-   int waterReedGroupID = rmObjectDefCreate("reed group");
-   rmObjectDefAddItem(waterReedGroupID, cUnitTypeWaterReeds, xsRandInt(2, 4), 4.0);
-   rmObjectDefAddConstraint(waterReedGroupID, vDefaultEmbellishmentAvoidAll);
-   rmObjectDefAddConstraint(waterReedGroupID, reedAvoidLand, cObjectConstraintBufferNone);
-   rmObjectDefAddConstraint(waterReedGroupID, reedForceNearLand, cObjectConstraintBufferNone);
-   rmObjectDefPlaceAnywhere(waterReedGroupID, 0, 15 * cNumberPlayers * getMapAreaSizeFactor());
+//   int waterReedGroupID = rmObjectDefCreate("reed group");
+//   rmObjectDefAddItem(waterReedGroupID, cUnitTypeWaterReeds, xsRandInt(2, 4), 4.0);
+//   rmObjectDefAddConstraint(waterReedGroupID, vDefaultEmbellishmentAvoidAll);
+//   rmObjectDefAddConstraint(waterReedGroupID, reedAvoidLand, cObjectConstraintBufferNone);
+//   rmObjectDefAddConstraint(waterReedGroupID, reedForceNearLand, cObjectConstraintBufferNone);
+//   rmObjectDefPlaceAnywhere(waterReedGroupID, 0, 15 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Birbs.
    int birdID = rmObjectDefCreate("bird");
-   rmObjectDefAddItem(birdID, cUnitTypeVulture, 1);
+   rmObjectDefAddItem(birdID, cUnitTypeHarpy, 1);
    rmObjectDefPlaceAnywhere(birdID, 0, 2 * cNumberPlayers * getMapAreaSizeFactor());
 
    rmSetProgress(1.0);

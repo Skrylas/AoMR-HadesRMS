@@ -716,6 +716,7 @@ void generate()
    rmObjectDefAddItem(stalagmiteID, cUnitTypeStalagmite, 1);
    rmObjectDefAddConstraint(stalagmiteID, vDefaultEmbellishmentAvoidAll);
    rmObjectDefAddConstraint(stalagmiteID, vDefaultEmbellishmentAvoidImpassableLand);
+   rmObjectDefAddConstraint(randomTreeID, vDefaultAvoidSettlementWithFarm);
    rmObjectDefPlaceAnywhere(stalagmiteID, 0, 30 * cNumberPlayers * getMapAreaSizeFactor());
 
    // Plants.
