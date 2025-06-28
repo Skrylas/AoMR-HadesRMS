@@ -167,9 +167,17 @@ void generate()
    float connectionWidth = 20.0 * getMapAreaSizeFactor();
    // Connection area def (used for all connections).
    int pathAreaDefID = rmAreaDefCreate("connection area def");
+   rmAreaSetSize(pathAreaDefID, 0.5);  
    rmAreaDefSetMix(pathAreaDefID, baseMixID);
-   rmAreaDefSetHeight(pathAreaDefID, 1.0);
+
+   rmAreaDefSetHeight(pathAreaDefID, 10.0);
    rmAreaDefAddHeightBlend(pathAreaDefID, cBlendAll, cFilter5x5Box, 4, 2);
+
+   rmAreaSetCliffType(pathAreaDefID, cCliffHadesDirt);
+   rmAreaSetCliffSideRadius(pathAreaDefID, 0, 2);
+   rmAreaSetCliffEmbellishmentDensity(pathAreaDefID, 0.0);
+   rmAreaSetCliffLayerPaint(pathAreaDefID, cCliffLayerOuterSideClose, false);
+   rmAreaSetCliffLayerPaint(pathAreaDefID, cCliffLayerOuterSideFar, false);
 
    // Island connection path definition.
    int pathDefID = rmPathDefCreate("connection path def");
@@ -214,9 +222,15 @@ void generate()
          rmAreaSetSize(pondID, pondSize);
 //         rmAreaSetWaterType(pondID, cWaterHadesRiver);
          rmAreaSetCliffType(pondID, cCliffHadesLava);
+         rmAreaSetCliffSideRadius(pondID, -1, 1);
+         rmAreaSetCliffEmbellishmentDensity(pondID, 0.0);
+         rmAreaSetCliffLayerPaint(pondID, cCliffLayerOuterSideClose, true);
+         rmAreaSetCliffLayerPaint(pondID, cCliffLayerOuterSideFar, true);         
+         rmAreaAddHeightBlend(pondID, cBlendAll, cFilter5x5Box, 2);
 
          rmAreaSetHeight(pondID, 0.0);
          rmAreaSetEdgeSmoothDistance(pondID, 10);
+         rmAreaSetCoherence(pondID, 0.75);
 
          rmAreaAddToClass(pondID, pondClassID);
          rmAreaAddConstraint(pondID, pondAvoidPond);
