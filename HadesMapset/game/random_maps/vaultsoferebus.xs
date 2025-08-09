@@ -357,7 +357,7 @@ void generate()
       }
       else
       {
-         rmObjectDefAddItem(largeMapHuntID, cUnitTypeAurochs, xsRandInt(4, 7);
+         rmObjectDefAddItem(largeMapHuntID, cUnitTypeAurochs, xsRandInt(4, 7));
       }
 
       rmObjectDefAddConstraint(largeMapHuntID, vDefaultAvoidEdge);
