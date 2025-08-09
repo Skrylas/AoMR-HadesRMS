@@ -1,9 +1,0 @@
-﻿<?xml version = "1.0" encoding = "UTF-8"?>
-<mapinfo 
-    displayName = "Asphodel Meadows"
-    detailsText = "A field of barren plants and grasses host many animals to hunt, among the snaking rivers of lava."
-    loadDetails="Animals are this region's main source of food.  Use bodies of lava as defensive features, or expand out into the middle of the map for resources and settlements."
-    imagepath = "resources\maps\map_picker\watering_hole.png"
-    loadBackground="resources\maps\previews\watering_hole.png"
-    landmap="">
-</mapinfo>
